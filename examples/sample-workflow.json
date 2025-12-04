@@ -1,0 +1,85 @@
+{
+  "description": "Sample workflow: Join orders with customers, aggregate by region",
+  "workflow": {
+    "nodes": [
+      {
+        "id": "read-orders",
+        "type": "ReadCSV",
+        "config": {
+          "upload_id": "REPLACE_WITH_ORDERS_UPLOAD_ID",
+          "header": true,
+          "sep": ","
+        },
+        "position": { "x": 100, "y": 100 }
+      },
+      {
+        "id": "read-customers",
+        "type": "ReadCSV",
+        "config": {
+          "upload_id": "REPLACE_WITH_CUSTOMERS_UPLOAD_ID",
+          "header": true,
+          "sep": ","
+        },
+        "position": { "x": 100, "y": 300 }
+      },
+      {
+        "id": "formula-total",
+        "type": "Formula",
+        "config": {
+          "newCol": "total_amount",
+          "expression": "quantity * unit_price"
+        },
+        "position": { "x": 350, "y": 100 }
+      },
+      {
+        "id": "join-data",
+        "type": "Join",
+        "config": {
+          "leftKey": "customer_id",
+          "rightKey": "customer_id",
+          "how": "left"
+        },
+        "position": { "x": 600, "y": 200 }
+      },
+      {
+        "id": "aggregate-region",
+        "type": "Aggregate",
+        "config": {
+          "groupBy": ["region", "tier"],
+          "aggregations": [
+            { "col": "total_amount", "op": "sum", "as": "revenue" },
+            { "col": "order_id", "op": "count", "as": "order_count" },
+            { "col": "quantity", "op": "sum", "as": "units_sold" }
+          ]
+        },
+        "position": { "x": 850, "y": 200 }
+      },
+      {
+        "id": "sort-revenue",
+        "type": "Sort",
+        "config": {
+          "columns": ["revenue"],
+          "ascending": false
+        },
+        "position": { "x": 1100, "y": 200 }
+      },
+      {
+        "id": "output-csv",
+        "type": "Output",
+        "config": {
+          "format": "csv"
+        },
+        "position": { "x": 1350, "y": 200 }
+      }
+    ],
+    "edges": [
+      { "fromNodeId": "read-orders", "fromPort": "out", "toNodeId": "formula-total", "toPort": "in" },
+      { "fromNodeId": "formula-total", "fromPort": "out", "toNodeId": "join-data", "toPort": "in" },
+      { "fromNodeId": "read-customers", "fromPort": "out", "toNodeId": "join-data", "toPort": "in_1" },
+      { "fromNodeId": "join-data", "fromPort": "out", "toNodeId": "aggregate-region", "toPort": "in" },
+      { "fromNodeId": "aggregate-region", "fromPort": "out", "toNodeId": "sort-revenue", "toPort": "in" },
+      { "fromNodeId": "sort-revenue", "fromPort": "out", "toNodeId": "output-csv", "toPort": "in" }
+    ]
+  },
+  "usage": "1. Upload sample1.csv and sample2.csv using /api/upload\n2. Replace upload_id values with returned IDs\n3. POST this workflow to /api/run-workflow\n4. Download result from the final_output_url"
+}

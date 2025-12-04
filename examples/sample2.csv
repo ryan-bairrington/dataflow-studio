@@ -1,0 +1,6 @@
+customer_id,customer_name,region,tier
+C001,Acme Corp,North,Gold
+C002,Beta Industries,South,Silver
+C003,Gamma LLC,East,Gold
+C004,Delta Co,West,Bronze
+C005,Epsilon Inc,North,Silver
