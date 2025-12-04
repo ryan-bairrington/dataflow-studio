@@ -1,6 +1,6 @@
 # DataFlow Studio 🔄
 
-[![CI](https://github.com/YOUR_USERNAME/dataflow-studio/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_USERNAME/dataflow-studio/actions/workflows/ci.yml)
+[![CI](https://github.com/YOUR_ryan-bairrington/dataflow-studio/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_ryan-bairrington/dataflow-studio/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
@@ -188,3 +188,4 @@ Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines
 <p align="center">
   Made with ❤️ and 🐼 pandas
 </p>
+
